@@ -30,8 +30,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/telegram_info_export*
-          asset_name: telegram_info_export
+          asset_path: ./dist/telegram_info_export.exe
+          asset_name: telegram_info_export.exe
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
