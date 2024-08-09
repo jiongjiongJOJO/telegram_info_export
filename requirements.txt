@@ -1,0 +1,6 @@
+pyinstaller~=6.9.0
+pandas~=2.2.2
+future~=0.18.3
+ttkthemes~=3.2.2
+openpyxl~=3.1.2
+telethon~=1.36.0
