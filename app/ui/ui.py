@@ -1,8 +1,7 @@
 import flet as ft
-from flet import *
-from .main_page import MainPage
-from .settings_page import SettingsPage
-from .about_page import AboutPage
+from app.ui.main_page import MainPage
+from app.ui.settings_page import SettingsPage
+from app.ui.about_page import AboutPage
 
 
 class FletUI(ft.Column):
@@ -17,13 +16,13 @@ class FletUI(ft.Column):
         self.about_page = AboutPage(self.page)
 
         # 导航栏
-        self.nav_rail = ft.NavigationRail(
+        main_nav_rail = ft.NavigationRail(
             selected_index=0,
             label_type=ft.NavigationRailLabelType.ALL,
             min_width=100,
             min_extended_width=150,
             leading=ft.Image(src="assets/logo.png", width=50, height=50),
-            group_alignment=-0.9,
+            group_alignment=0,
             destinations=[
                 ft.NavigationRailDestination(
                     icon=ft.icons.HOME_OUTLINED,
@@ -39,16 +38,34 @@ class FletUI(ft.Column):
                     icon=ft.icons.INFO_OUTLINED,
                     selected_icon=ft.icons.INFO,
                     label="关于"
-                ),
+                )
             ],
-            on_change=self.nav_change
+            on_change=self.nav_change,
+            expand=True,
+        )
+
+        # 在导航栏leading部分添加主题切换按钮
+        self.theme_icon = ft.IconButton(
+            icon=ft.icons.DARK_MODE if page.theme_mode == ft.ThemeMode.LIGHT else ft.icons.LIGHT_MODE,
+            on_click=self.toggle_theme,
+            tooltip="切换主题",
+            alignment=ft.alignment.center,
+        )
+
+        self.nav_rail = ft.Column(
+            [
+                main_nav_rail,
+                ft.VerticalDivider(width=1),
+                self.theme_icon
+            ],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER
         )
 
         # 主内容区域
         self.content_area = ft.Container(
             content=self.main_page,
             expand=True,
-            padding=padding.all(20)
+            padding=ft.padding.all(20)
         )
 
         self.row = ft.Row(
@@ -64,4 +81,13 @@ class FletUI(ft.Column):
             self.settings_page,
             self.about_page
         ][index]
+        self.page.update()
+
+    def toggle_theme(self, e):
+        if self.page.theme_mode == ft.ThemeMode.LIGHT:
+            self.page.theme_mode = ft.ThemeMode.DARK
+            self.theme_icon.icon = ft.icons.LIGHT_MODE
+        else:
+            self.page.theme_mode = ft.ThemeMode.LIGHT
+            self.theme_icon.icon = ft.icons.DARK_MODE
         self.page.update()

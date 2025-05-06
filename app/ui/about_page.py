@@ -1,7 +1,6 @@
+import threading
 import flet as ft
-from flet import *
 import requests
-from app.version import VERSION
 
 
 class AboutPage(ft.Column):
@@ -13,24 +12,28 @@ class AboutPage(ft.Column):
 
         self.content = ft.Markdown(
             """
-            ### Telegram数据导出
-            - 仓库地址: [https://github.com/jiongjiongJOJO/telegram_info_export](https://github.com/jiongjiongJOJO/telegram_info_export)
-            - 最新版本: loading...  
-            - 当前版本: v1.1.2
+### Telegram数据导出
 
-            ### 特别感谢
-            - [PyQt5](https://pypi.org/project/PyQt5/)
-            - [Telethon](https://pypi.org/project/Telethon/)
-            - [Gemini](https://gemini.google.com/)
+- 仓库地址: [https://github.com/jiongjiongJOJO/telegram_info_export](https://github.com/jiongjiongJOJO/telegram_info_export)
+- 最新版本: loading...  
+- 当前版本: v1.1.2
+
+### 特别感谢
+
+- [PyQt5](https://pypi.org/project/PyQt5/)
+- [Telethon](https://pypi.org/project/Telethon/)
+- [Gemini](https://gemini.google.com/)
             """,
-            extension_set="gitHubWeb",
-            selectable=True
+            extension_set=ft.MarkdownExtensionSet.GITHUB_WEB,
+            selectable=False
         )
 
         self.controls = [self.content]
-        self.load_version()
+        threading.Thread(
+            target=self.load_version
+        ).start()
 
-    async def load_version(self):
+    def load_version(self):
         try:
             response = requests.get(
                 "https://raw.githubusercontent.com/jiongjiongJOJO/telegram_info_export/master/app/version.py"

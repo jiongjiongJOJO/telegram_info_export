@@ -1,5 +1,4 @@
 import flet as ft
-from flet import *
 
 
 class SettingsPage(ft.Column):

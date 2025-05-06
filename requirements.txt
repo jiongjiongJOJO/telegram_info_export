@@ -6,3 +6,5 @@ pyqt5~=5.15.4
 markdown~=3.3.4
 requests[socks]~=2.32.3
 python-socks[asyncio]~=2.5.3
+flet~=0.27.6
+darkdetect~=0.8.0
