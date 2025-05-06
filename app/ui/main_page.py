@@ -1,52 +1,39 @@
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtWidgets import (
-    QWidget, QLabel, QPushButton, QLineEdit, QGridLayout
-)
+import flet as ft
+from flet import *
 
 
-class UiMainPage(QWidget):
-    # 定义信号
-    main_button_clicked_signal = pyqtSignal()
-
-    def __init__(self):
+class MainPage(ft.Column):
+    def __init__(self, page):
         super().__init__()
-        self.export_info_label = None
-        self.phone_input = None
-        self.main_btn_2 = None
-        self.api_hash_input = None
-        self.id_input = None
+        self.page = page
+        self.expand = True
+        self.spacing = 15
 
-        self.setup_ui()
+        # 输入字段
+        self.id_input = ft.TextField(label="ID", width=300)
+        self.api_hash_input = ft.TextField(label="API Hash", width=300)
+        self.phone_input = ft.TextField(label="手机号", width=300)
 
-    def setup_ui(self):
-        layout = QGridLayout(self)
-        layout.setContentsMargins(30, 30, 30, 30)
+        # 导出按钮
+        self.export_btn = ft.ElevatedButton(
+            "导出数据",
+            icon=ft.icons.DOWNLOAD,
+            on_click=self.on_export_click
+        )
 
-        # ID
-        id_label = QLabel("ID:")
-        self.id_input = QLineEdit()
-        layout.addWidget(id_label, 0, 0)
-        layout.addWidget(self.id_input, 0, 1)
+        # 状态显示
+        self.status_label = ft.Text("", color="black")
 
-        # API Hash
-        api_hash_label = QLabel("API Hash:")
-        self.api_hash_input = QLineEdit()
-        layout.addWidget(api_hash_label, 1, 0)
-        layout.addWidget(self.api_hash_input, 1, 1)
+        self.controls = [
+            ft.Container(self.id_input, padding=5),
+            ft.Container(self.api_hash_input, padding=5),
+            ft.Container(self.phone_input, padding=5),
+            ft.Container(self.export_btn, padding=15),
+            ft.Container(self.status_label, padding=5)
+        ]
 
-        # 手机号
-        phone_label = QLabel("手机号:")
-        self.phone_input = QLineEdit()
-        layout.addWidget(phone_label, 2, 0)
-        layout.addWidget(self.phone_input, 2, 1)
-
-        # 保存/获取数据按钮
-        self.main_btn_2 = QPushButton("导出数据")
-        # 修改信号发射方式
-        self.main_btn_2.clicked.connect(self.main_button_clicked_signal.emit)  # 连接 "main_button_clicked" 信号到 main_button 点击事件
-
-        layout.addWidget(self.main_btn_2, 3, 0, 1, 2, Qt.AlignCenter)
-
-        # 显示数据
-        self.export_info_label = QLabel("")
-        layout.addWidget(self.export_info_label, 4, 0, 1, 2)
+    def on_export_click(self, e):
+        # TODO: 实现导出逻辑
+        self.status_label.value = "正在获取数据..."
+        self.status_label.color = "blue"
+        self.page.update()
