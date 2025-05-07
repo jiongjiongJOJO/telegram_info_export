@@ -19,7 +19,7 @@ class FletUI(ft.Column):
         main_nav_rail = ft.NavigationRail(
             selected_index=0,
             label_type=ft.NavigationRailLabelType.ALL,
-            min_width=100,
+            min_width=70,
             min_extended_width=150,
             leading=ft.Image(src="assets/logo.png", width=50, height=50),
             group_alignment=0,
@@ -87,7 +87,9 @@ class FletUI(ft.Column):
         if self.page.theme_mode == ft.ThemeMode.LIGHT:
             self.page.theme_mode = ft.ThemeMode.DARK
             self.theme_icon.icon = ft.icons.LIGHT_MODE
+            self.main_page.qr_img.src = "assets/qr-error-light.png"
         else:
             self.page.theme_mode = ft.ThemeMode.LIGHT
             self.theme_icon.icon = ft.icons.DARK_MODE
+            self.main_page.qr_img.src = "assets/qr-error-dark.png"
         self.page.update()

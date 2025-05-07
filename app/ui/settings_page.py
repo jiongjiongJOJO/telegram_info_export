@@ -10,7 +10,7 @@ class SettingsPage(ft.Column):
 
         # 代理类型选择
         self.proxy_type = ft.RadioGroup(
-            content=ft.Column([
+            content=ft.Row([
                 ft.Radio(value="socks5", label="SOCKS5"),
                 ft.Radio(value="socks4", label="SOCKS4"),
                 ft.Radio(value="http", label="HTTP"),
